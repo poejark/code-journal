@@ -18,6 +18,7 @@
   width: 100%;
 }
 
+/* I am assuming this is all that is needed for the appropriate responsive layout formatting */
 @media screen and (width >= 768px) {
   .container {
     max-width: 900px;
