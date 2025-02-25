@@ -46,3 +46,29 @@ textarea {
   position: relative;
   right: 0;
 }
+
+.new {
+  background-color: #4c2676;
+  color: white;
+  border-radius: 8px;
+  border: 2px solid;
+  width: 60px;
+  margin-left: auto;
+  height: 30px;
+  font-weight: bold;
+}
+
+ul {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  /* text-align: center; */
+  list-style: none;
+}
+
+.align {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
