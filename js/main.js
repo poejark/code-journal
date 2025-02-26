@@ -1,4 +1,5 @@
 'use strict';
+let noEntries = false;
 const $image = document.querySelector('.form-image');
 if (!$image) throw new Error('image element does not exist');
 const $input = document.querySelector('#photo-url');
@@ -31,8 +32,17 @@ $form.addEventListener('submit', (event) => {
   data.nextEntryId += 1;
   data.entries.unshift($eventTargetObject);
   writeModel();
-  $image.setAttribute('src', 'images/placeholder-image-square.jpg');
-  $form.reset();
+  const $ul = document.querySelector('ul');
+  if (!$ul) throw new Error('no ul found in the document');
+  $ul.prepend(renderEntry($eventTargetObject));
+  viewSwap('entries');
+  if (data.entries.length <= 0) {
+    toggleNoEntries();
+  } else if (data.entries.length >= 0 && noEntries === true) {
+    toggleNoEntries();
+  }
+  // $image.setAttribute('src', 'images/placeholder-image-square.jpg');
+  // $form.reset();
 });
 function renderEntry(entry) {
   // <li class="row">
@@ -61,9 +71,9 @@ function renderEntry(entry) {
   $div.appendChild($p);
   $li.appendChild($img);
   $li.appendChild($div);
-  const $ul = document.querySelector('ul');
-  if (!$ul) throw new Error('no ul found in the document');
-  $ul.appendChild($li);
+  // const $ul = document.querySelector('ul');
+  // if (!$ul) throw new Error('no ul found in the document');
+  // $ul.appendChild($li);
   return $li;
 }
 document.addEventListener('DOMContentLoaded', () => {
@@ -72,4 +82,51 @@ document.addEventListener('DOMContentLoaded', () => {
   for (let i = 0; i < data.entries.length; i++) {
     $ul.appendChild(renderEntry(data.entries[i]));
   }
+  viewSwap(data.view);
+  if (data.entries.length <= 0) {
+    toggleNoEntries();
+  } else if (data.entries.length >= 0 && noEntries === true) {
+    toggleNoEntries();
+  }
+});
+function toggleNoEntries() {
+  const $divNoEntries = document.querySelector('#no-entries');
+  if (!$divNoEntries) throw new Error('no entries div does not exist.');
+  noEntries = !noEntries;
+  if (noEntries) {
+    $divNoEntries.className = '';
+  } else {
+    $divNoEntries.className = 'hidden';
+  }
+}
+function viewSwap(name) {
+  data.view = name;
+  writeModel();
+  const $form = document.querySelector('#form-view');
+  if (!$form) throw new Error('no form found');
+  const $entries = document.querySelector('#entries-view');
+  if (!$entries) throw new Error('entries view not found.');
+  if (data.view === 'entry-form') {
+    $form.classList.remove('hidden');
+    $entries.classList.add('hidden');
+  } else if (data.view === 'entries') {
+    $form.classList.add('hidden');
+    $entries.classList.remove('hidden');
+  }
+}
+const $entriesBar = document.querySelector('#nav-bar-entries');
+if (!$entriesBar)
+  throw new Error('the new button was not found in the document.');
+$entriesBar.addEventListener('click', () => {
+  viewSwap('entries');
+});
+const $newButton = document.querySelector('.new');
+if (!$newButton) throw new Error('new button not found in document.');
+$newButton.addEventListener('click', () => {
+  viewSwap('entry-form');
+});
+const $saveButton = document.querySelector('.submit');
+if (!$saveButton) throw new Error('Save button not found.');
+$saveButton.addEventListener('click', () => {
+  viewSwap('entries');
 });

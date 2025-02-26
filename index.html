@@ -17,10 +17,13 @@
   </head>
   <body>
     <header>
-      <div class="container">Code Journal</div>
+      <div class="nav align">
+        <span>Code Journal</span>
+        <a id="nav-bar-entries">Entries</a>
+      </div>
     </header>
     <main class="container">
-      <div data-view="entry-form" class="hidden">
+      <div data-view="entry-form" id="form-view" class="hidden">
         <h2><strong>New Entry</strong></h2>
         <form action="" id="formId">
           <div class="row">
@@ -46,7 +49,7 @@
           </div>
         </form>
       </div>
-      <div data-view="entries">
+      <div data-view="entries" id="entries-view">
         <div>
           <div class="row align">
             <h1>Entries</h1>
@@ -55,6 +58,7 @@
           <ul></ul>
         </div>
       </div>
+      <div id="no-entries" class="hidden"><p>No Entries Found.</p></div>
     </main>
     <script src="js/data.js"></script>
     <script src="js/main.js"></script>
