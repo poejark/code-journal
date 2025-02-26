@@ -1,6 +1,3 @@
-let nextEntryId: number = 0;
-const dataModel: object[] = [];
-
 const $image = document.querySelector('#photo-url');
 if (!$image) throw new Error('image element does not exist');
 
@@ -34,10 +31,10 @@ $form.addEventListener('submit', (event: Event) => {
     title: $title.value,
     photo: $photo.value,
     notes: $notes.value,
-    entryId: nextEntryId,
+    entryId: data.nextEntryId,
   };
-  nextEntryId += 1;
-  dataModel.unshift($eventTargetObject);
+  data.nextEntryId += 1;
+  data.entries.unshift($eventTargetObject);
   writeModel();
   $image.setAttribute('src', 'images/placeholder-image-square.jpg');
 

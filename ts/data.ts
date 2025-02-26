@@ -1,23 +1,30 @@
-// const data = {
-//   view: 'entry-form',
-//   entries: [],
-//   editing: null,
-//   nextEntryId: 1,
-// };
+interface Data {
+  view: string;
+  entries: object[];
+  editing: null | boolean;
+  nextEntryId: number;
+}
 
-const data = readModel();
+let data: Data = {
+  view: 'entry-form',
+  entries: [] as object[],
+  editing: null,
+  nextEntryId: 1,
+};
 
 function writeModel(): void {
-  const dataModelJSON = JSON.stringify(dataModel);
+  const dataModelJSON = JSON.stringify(data);
   localStorage.setItem('dataModel', dataModelJSON);
 }
 
 if (!writeModel) throw new Error('writeModel function not found');
 
-function readModel(): string[] {
+function readModel(): Data {
   const dataModelJSON = localStorage.getItem('dataModel');
   if (dataModelJSON) {
-    return JSON.parse(dataModelJSON);
+    return JSON.parse(dataModelJSON) as Data;
   }
-  return [];
+  return data;
 }
+
+data = readModel();

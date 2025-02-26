@@ -1,6 +1,4 @@
 'use strict';
-let nextEntryId = 0;
-const dataModel = [];
 const $image = document.querySelector('#photo-url');
 if (!$image) throw new Error('image element does not exist');
 $image.addEventListener('input', (event) => {
@@ -26,10 +24,10 @@ $form.addEventListener('submit', (event) => {
     title: $title.value,
     photo: $photo.value,
     notes: $notes.value,
-    entryId: nextEntryId,
+    entryId: data.nextEntryId,
   };
-  nextEntryId += 1;
-  dataModel.unshift($eventTargetObject);
+  data.nextEntryId += 1;
+  data.entries.unshift($eventTargetObject);
   writeModel();
   $image.setAttribute('src', 'images/placeholder-image-square.jpg');
   $form.reset();
