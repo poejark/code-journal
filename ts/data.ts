@@ -1,13 +1,13 @@
 interface Data {
   view: string;
-  entries: object[];
+  entries: Entry[];
   editing: null | boolean;
   nextEntryId: number;
 }
 
 let data: Data = {
   view: 'entry-form',
-  entries: [] as object[],
+  entries: [] as Entry[],
   editing: null,
   nextEntryId: 1,
 };

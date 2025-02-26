@@ -20,12 +20,15 @@
       <div class="container">Code Journal</div>
     </header>
     <main class="container">
-      <div data-view="entry-form">
+      <div data-view="entry-form" class="hidden">
         <h2><strong>New Entry</strong></h2>
         <form action="" id="formId">
           <div class="row">
             <div class="column-half">
-              <img src="images/placeholder-image-square.jpg" alt="" />
+              <img
+                src="images/placeholder-image-square.jpg"
+                alt=""
+                class="form-image" />
             </div>
             <div class="column-half">
               <label for="title">Title</label> <br />
@@ -43,44 +46,13 @@
           </div>
         </form>
       </div>
-      <div data-view="entries" class="hidden">
+      <div data-view="entries">
         <div>
           <div class="row align">
             <h1>Entries</h1>
             <button class="new">NEW</button>
           </div>
-          <ul>
-            <li class="row">
-              <img
-                src="images/placeholder-image-square.jpg"
-                class="column-half" />
-              <div class="column-half">
-                <h2>text</h2>
-
-                <p>flavor text</p>
-              </div>
-            </li>
-            <li class="row">
-              <img
-                src="images/placeholder-image-square.jpg"
-                class="column-half" />
-              <div class="column-half">
-                <h2>text</h2>
-
-                <p>flavor text</p>
-              </div>
-            </li>
-            <li class="row">
-              <img
-                src="images/placeholder-image-square.jpg"
-                class="column-half" />
-              <div class="column-half">
-                <h2>text</h2>
-
-                <p>flavor text</p>
-              </div>
-            </li>
-          </ul>
+          <ul></ul>
         </div>
       </div>
     </main>
