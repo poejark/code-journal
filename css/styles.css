@@ -91,3 +91,8 @@ ul {
   left: 10px;
   cursor: pointer;
 }
+
+i {
+  cursor: pointer;
+  margin-left: auto;
+}

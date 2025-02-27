@@ -64,18 +64,55 @@ function renderEntry(entry) {
   $div.classList.add('column-half');
   const $h2 = document.createElement('h2');
   $h2.innerText = entry.title;
+  const $edit = document.createElement('i');
+  $edit.classList.add('fa-solid');
+  $edit.classList.add('fa-pencil');
+  $edit.setAttribute('data-entry-id', `${entry.entryId}`);
+  $edit.setAttribute('id', 'edit');
+  const $titleWrapper = document.createElement('div');
+  $titleWrapper.classList.add('column-full');
+  $titleWrapper.classList.add('align');
   const $p = document.createElement('p');
   $p.innerText = entry.notes;
   // construct branch
-  $div.appendChild($h2);
+  $titleWrapper.appendChild($h2);
+  $titleWrapper.appendChild($edit);
+  $div.appendChild($titleWrapper);
   $div.appendChild($p);
   $li.appendChild($img);
+  $li.appendChild($titleWrapper);
   $li.appendChild($div);
   // const $ul = document.querySelector('ul');
   // if (!$ul) throw new Error('no ul found in the document');
   // $ul.appendChild($li);
   return $li;
 }
+const $ul = document.querySelector('ul');
+if (!$ul) throw new Error('no ul found in the document');
+$ul.addEventListener('click', (event) => {
+  const $eventTarget = event.target;
+  if ($eventTarget.id === 'edit') {
+    viewSwap('entry-form');
+    for (let i = 0; i < data.entries.length; i++) {
+      if (Number($eventTarget.dataset.entryId) === data.entries[i].entryId) {
+        data.editing = data.entries[i];
+        const $titleInput = document.querySelector('input[name="title"]');
+        if (!$titleInput) throw new Error('no title form input');
+        $titleInput.value = data.editing.title;
+        const $titleLabel = document.querySelector('#title-label');
+        if (!$titleLabel) throw new Error('no label for title found');
+        $titleLabel.innerText = 'Edit Entry';
+        const $photoInput = document.querySelector('input[name="photo"]');
+        if (!$photoInput) throw new Error('no photo form input');
+        $photoInput.value = data.editing.photo;
+        $image.setAttribute('src', data.editing.photo);
+        const $notesInput = document.querySelector('textarea[name="notes"]');
+        if (!$notesInput) throw new Error('no text area input found');
+        $notesInput.value = data.editing.notes;
+      }
+    }
+  }
+});
 document.addEventListener('DOMContentLoaded', () => {
   const $ul = document.querySelector('ul');
   if (!$ul) throw new Error('no ul found in the document');
@@ -124,6 +161,9 @@ const $newButton = document.querySelector('.new');
 if (!$newButton) throw new Error('new button not found in document.');
 $newButton.addEventListener('click', () => {
   viewSwap('entry-form');
+  const $titleLabel = document.querySelector('#title-label');
+  if (!$titleLabel) throw new Error('no label for title found');
+  $titleLabel.innerText = 'New Entry';
 });
 const $saveButton = document.querySelector('.submit');
 if (!$saveButton) throw new Error('Save button not found.');
