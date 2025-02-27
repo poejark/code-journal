@@ -27,7 +27,6 @@ if (!$form) throw new Error('no form found');
 
 $form.addEventListener('submit', (event: Event) => {
   event.preventDefault();
-
   const $eventTarget = event.target as HTMLFormElement;
   if (!$eventTarget) throw new Error('no event target');
   const $title = $eventTarget.elements.namedItem('title') as HTMLInputElement;
@@ -45,22 +44,49 @@ $form.addEventListener('submit', (event: Event) => {
     notes: $notes.value,
     entryId: data.nextEntryId,
   };
-  data.nextEntryId += 1;
-  data.entries.unshift($eventTargetObject);
-  writeModel();
 
   const $ul = document.querySelector('ul');
   if (!$ul) throw new Error('no ul found in the document');
-  $ul.prepend(renderEntry($eventTargetObject));
-  viewSwap('entries');
-  if (data.entries.length <= 0) {
-    toggleNoEntries();
-  } else if (data.entries.length >= 0 && noEntries === true) {
-    toggleNoEntries();
-  }
-  // $image.setAttribute('src', 'images/placeholder-image-square.jpg');
 
-  // $form.reset();
+  // if not editing
+  if (data.editing === null) {
+    data.nextEntryId += 1;
+    data.entries.unshift($eventTargetObject);
+    writeModel();
+
+    $ul.prepend(renderEntry($eventTargetObject));
+    viewSwap('entries');
+    if (data.entries.length <= 0) {
+      toggleNoEntries();
+    } else if (data.entries.length >= 0 && noEntries === true) {
+      toggleNoEntries();
+    }
+  } else {
+    $eventTargetObject.entryId = data.editing.entryId;
+    for (let i = 0; i < data.entries.length; i++) {
+      if (data.entries[i].entryId === $eventTargetObject.entryId) {
+        data.entries[i] = $eventTargetObject;
+
+        const $targeti = document.querySelector(
+          `i[data-entry-id="${$eventTargetObject.entryId}"]`,
+        );
+        if (!$targeti) throw new Error('target i not found.');
+        const $targetLi = $targeti.closest('li');
+        if (!$targetLi) throw new Error('target Li not found. ');
+        $targetLi.replaceWith(renderEntry($eventTargetObject));
+      }
+      const $titleLabel = document.querySelector(
+        '#title-label',
+      ) as HTMLHeadingElement;
+      if (!$titleLabel) throw new Error('no label for title found');
+      $titleLabel.innerText = 'New Entry';
+      data.editing = null;
+      writeModel();
+    }
+  }
+  $image.setAttribute('src', 'images/placeholder-image-square.jpg');
+
+  $form.reset();
 });
 
 function renderEntry(entry: Entry): HTMLElement {
