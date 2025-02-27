@@ -241,6 +241,7 @@ $modalDeleteEntry.addEventListener('click', (event) => {
         //     if (!$titleLabel) throw new Error('no label for title found');
         //     $titleLabel.innerText = 'New Entry';
         data.editing = null;
+        $image.setAttribute('src', 'images/placeholder-image-square.jpg');
         $form.reset();
         writeModel();
         break;
