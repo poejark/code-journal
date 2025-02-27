@@ -43,9 +43,20 @@ textarea {
 }
 
 .submit-wrapper {
-  text-align: right;
-  width: 100%;
   margin-top: 0;
+  margin-left: auto;
+}
+
+.delete-entry {
+  color: red;
+  margin-right: auto;
+}
+
+.form-bottom {
+  /* justify-content: space-between; */
+  display: flex;
+  width: 100%;
+  align-items: center;
 }
 
 .submit {
@@ -54,8 +65,6 @@ textarea {
   border-radius: 4px;
   border: 2px solid gray;
   width: 60px;
-  position: relative;
-  right: 0;
 }
 
 .new {

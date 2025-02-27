@@ -142,7 +142,6 @@ if (!$ul) throw new Error('no ul found in the document');
 $ul.addEventListener('click', (event: Event) => {
   const $eventTarget = event.target as HTMLElement;
   if ($eventTarget.id === 'edit') {
-    viewSwap('entry-form');
     for (let i = 0; i < data.entries.length; i++) {
       if (Number($eventTarget.dataset.entryId) === data.entries[i].entryId) {
         data.editing = data.entries[i];
@@ -169,6 +168,7 @@ $ul.addEventListener('click', (event: Event) => {
         $notesInput.value = data.editing.notes;
       }
     }
+    viewSwap('entry-form');
   }
 });
 
@@ -208,6 +208,14 @@ function viewSwap(name: string): void {
   if (data.view === 'entry-form') {
     $form.classList.remove('hidden');
     $entries.classList.add('hidden');
+    // show delete entry button if the form is in edit mode
+    const $deleteEntry = document.querySelector('.delete-entry');
+    if (!$deleteEntry) throw new Error('no delete entry in the document found');
+    if (!data.editing) {
+      $deleteEntry.classList.add('hidden');
+    } else {
+      $deleteEntry.classList.remove('hidden');
+    }
   } else if (data.view === 'entries') {
     $form.classList.add('hidden');
     $entries.classList.remove('hidden');
@@ -219,6 +227,11 @@ if (!$entriesBar)
   throw new Error('the new button was not found in the document.');
 
 $entriesBar.addEventListener('click', () => {
+  if (data.editing) {
+    data.editing = null;
+    $image.setAttribute('src', 'images/placeholder-image-square.jpg');
+    $form.reset();
+  }
   viewSwap('entries');
 });
 
@@ -238,5 +251,60 @@ const $saveButton = document.querySelector('.submit');
 if (!$saveButton) throw new Error('Save button not found.');
 
 $saveButton.addEventListener('click', () => {
+  viewSwap('entries');
+});
+
+const $deleteEntry = document.querySelector('.delete-entry');
+if (!$deleteEntry) throw new Error('no delete entry in the document found');
+
+const $dialog = document.querySelector('dialog');
+if (!$dialog) throw new Error('no dialog found');
+$deleteEntry.addEventListener('click', (event: Event) => {
+  event.preventDefault();
+  $dialog.showModal();
+});
+
+const $modalDeleteEntry = document.querySelector('.modal-delete-entry');
+if (!$modalDeleteEntry) throw new Error('no delete button found in modal.');
+
+const $dismissModal = document.querySelector('.dismiss-modal');
+if (!$dismissModal) throw new Error('no dismiss button found in modal.');
+
+$dismissModal.addEventListener('click', (event: Event) => {
+  event.preventDefault();
+  $dialog.close();
+});
+
+$modalDeleteEntry.addEventListener('click', (event: Event) => {
+  event.preventDefault();
+  if (data.editing) {
+    for (let i = 0; i < data.entries.length; i++) {
+      if (data.editing.entryId === data.entries[i].entryId) {
+        console.log('point reached');
+        data.entries.splice(i, 1);
+
+        const $targeti = document.querySelector(
+          `i[data-entry-id="${data.editing.entryId}"]`,
+        );
+        if (!$targeti) throw new Error('target i not found.');
+        const $targetLi = $targeti.closest('li');
+        if (!$targetLi) throw new Error('target Li not found. ');
+        $targetLi.remove();
+        //     const $titleLabel = document.querySelector(
+        //       '#title-label',
+        //     ) as HTMLHeadingElement;
+        //     if (!$titleLabel) throw new Error('no label for title found');
+        //     $titleLabel.innerText = 'New Entry';
+        data.editing = null;
+        $form.reset();
+        writeModel();
+        break;
+      }
+    }
+  }
+  if (data.entries.length <= 0) {
+    toggleNoEntries();
+  }
+  $dialog.close();
   viewSwap('entries');
 });
