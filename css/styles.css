@@ -9,10 +9,6 @@ header {
   font-size: 26px;
   font-weight: bold;
   display: flex;
-
-  /* flex-wrap: wrap; */
-
-  /* justify-content: center; */
   align-items: center;
 }
 
@@ -53,7 +49,6 @@ textarea {
 }
 
 .form-bottom {
-  /* justify-content: space-between; */
   display: flex;
   width: 100%;
   align-items: center;
@@ -82,8 +77,6 @@ ul {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-
-  /* text-align: center; */
   list-style: none;
 }
 

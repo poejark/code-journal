@@ -130,10 +130,6 @@ function renderEntry(entry: Entry): HTMLElement {
   $li.appendChild($titleWrapper);
   $li.appendChild($div);
 
-  // const $ul = document.querySelector('ul');
-  // if (!$ul) throw new Error('no ul found in the document');
-  // $ul.appendChild($li);
-
   return $li;
 }
 
@@ -216,6 +212,9 @@ function viewSwap(name: string): void {
     } else {
       $deleteEntry.classList.remove('hidden');
     }
+    if (noEntries) {
+      toggleNoEntries();
+    }
   } else if (data.view === 'entries') {
     $form.classList.add('hidden');
     $entries.classList.remove('hidden');
@@ -231,6 +230,9 @@ $entriesBar.addEventListener('click', () => {
     data.editing = null;
     $image.setAttribute('src', 'images/placeholder-image-square.jpg');
     $form.reset();
+  }
+  if (data.entries.length <= 0 && !noEntries) {
+    toggleNoEntries();
   }
   viewSwap('entries');
 });
@@ -280,9 +282,7 @@ $modalDeleteEntry.addEventListener('click', (event: Event) => {
   if (data.editing) {
     for (let i = 0; i < data.entries.length; i++) {
       if (data.editing.entryId === data.entries[i].entryId) {
-        console.log('point reached');
         data.entries.splice(i, 1);
-
         const $targeti = document.querySelector(
           `i[data-entry-id="${data.editing.entryId}"]`,
         );
@@ -290,11 +290,6 @@ $modalDeleteEntry.addEventListener('click', (event: Event) => {
         const $targetLi = $targeti.closest('li');
         if (!$targetLi) throw new Error('target Li not found. ');
         $targetLi.remove();
-        //     const $titleLabel = document.querySelector(
-        //       '#title-label',
-        //     ) as HTMLHeadingElement;
-        //     if (!$titleLabel) throw new Error('no label for title found');
-        //     $titleLabel.innerText = 'New Entry';
         data.editing = null;
         $image.setAttribute('src', 'images/placeholder-image-square.jpg');
         $form.reset();
