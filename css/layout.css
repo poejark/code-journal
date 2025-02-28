@@ -18,7 +18,12 @@
   width: 100%;
 }
 
-@media screen and (min-width: 768px) {
+.column-quarter {
+  width: 25%;
+}
+
+/* I am assuming this is all that is needed for the appropriate responsive layout formatting */
+@media screen and (width >= 768px) {
   .container {
     max-width: 900px;
   }
