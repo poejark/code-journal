@@ -102,7 +102,6 @@ function renderEntry(entry) {
   $div.appendChild($titleWrapper);
   $div.appendChild($p);
   $li.appendChild($img);
-  $li.appendChild($titleWrapper);
   $li.appendChild($div);
   return $li;
 }

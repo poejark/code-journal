@@ -124,10 +124,11 @@ function renderEntry(entry: Entry): HTMLElement {
   // construct branch
   $titleWrapper.appendChild($h2);
   $titleWrapper.appendChild($edit);
+
   $div.appendChild($titleWrapper);
   $div.appendChild($p);
+
   $li.appendChild($img);
-  $li.appendChild($titleWrapper);
   $li.appendChild($div);
 
   return $li;
